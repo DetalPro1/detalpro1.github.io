@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Детали на заказ — 3D-печать, ТПА, фрезеровка</title>
+    <style>
+        /* ------------------ СТИЛИ (без изменений) ------------------ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+        .logo span {
+            color: #2563eb;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 15px;
+        }
+        nav a:hover {
+            color: #2563eb;
+        }
+
+        .header-phone {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 18px;
+        }
+        .header-phone a {
+            color: #0f172a;
+            text-decoration: none;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 0 30px;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1 1 500px;
+        }
+        .hero-text .badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .hero-text h1 {
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #0f172a;
+        }
+        .hero-text h1 span {
+            color: #2563eb;
+        }
+        .hero-text p {
+            font-size: 18px;
+            color: #475569;
+            margin: 16px 0 24px;
+            max-width: 550px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: #fff;
+            padding: 14px 36px;
+            border: none;
+            border-radius: 60px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+        }
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #0f172a;
+            padding: 14px 36px;
+            border: 2px solid #cbd5e1;
+            border-radius: 60px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-outline:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            flex: 1 1 380px;
+            min-height: 280px;
+            border-radius: 30px;
+            overflow: hidden;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #334155;
+        }
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            min-height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 16px;
+            padding: 30px 0 20px;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 10px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item .number {
+            font-size: 34px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .stat-item .label {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .section-title {
+            font-size: 34px;
+            font-weight: 700;
+            color: #0f172a;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 17px;
+            margin-bottom: 40px;
+        }
+
+        .about {
+            padding: 50px 0;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .about-grid .image-placeholder {
+            border-radius: 24px;
+            overflow: hidden;
+            height: 350px;
+            background: #1e293b;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #334155;
+        }
+        .about-grid .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .about-grid .image-placeholder .before-after {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            gap: 20px;
+            white-space: nowrap;
+        }
+        .about-grid .image-placeholder .before-after span:first-child { color: #ef4444; }
+        .about-grid .image-placeholder .before-after span:last-child { color: #22c55e; }
+        .about-grid h3 {
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+        .about-grid p {
+            color: #475569;
+            margin-bottom: 14px;
+        }
+        .about-grid ul {
+            list-style: none;
+            padding: 0;
+        }
+        .about-grid ul li {
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #334155;
+        }
+        .about-grid ul li::before {
+            content: "⚙️";
+            font-size: 18px;
+        }
+
+        .services {
+            padding: 50px 0;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .service-card {
+            background: #fff;
+            padding: 30px 24px 34px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+            border-color: #2563eb;
+        }
+        .service-card .service-img {
+            width: 100%;
+            height: 180px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin: 0 auto 14px;
+            display: block;
+            border: 1px solid #e2e8f0;
+            background: #f1f5f9;
+        }
+        .service-card h4 {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+        .service-card .sub {
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .service-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .service-card .materials {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 12px;
+        }
+        .service-card .materials span {
+            background: #f1f5f9;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .details {
+            padding: 50px 0;
+            background: #fff;
+            border-radius: 40px;
+            margin: 10px 0;
+        }
+        .details .container {
+            padding: 0 24px;
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .detail-item {
+            text-align: center;
+            padding: 16px 12px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+        .detail-item:hover {
+            border-color: #2563eb;
+            transform: scale(1.03);
+        }
+        .detail-item .detail-img {
+            width: 100%;
+            height: 120px;
+            border-radius: 10px;
+            margin: 0 auto 8px;
+            display: block;
+            background: #f1f5f9;
+            overflow: hidden;
+        }
+        .detail-item .detail-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .detail-item .name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+        .detail-item .desc {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .tech {
+            padding: 50px 0;
+        }
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+        .tech-item {
+            background: #fff;
+            padding: 24px 20px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .tech-item:hover {
+            border-color: #2563eb;
+        }
+        .tech-item .tech-img {
+            width: 100%;
+            height: 140px;
+            border-radius: 10px;
+            margin: 0 auto 10px;
+            display: block;
+            background: #f1f5f9;
+            overflow: hidden;
+        }
+        .tech-item .tech-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .tech-item h4 {
+            font-size: 17px;
+            margin: 8px 0 4px;
+        }
+        .tech-item p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .steps {
+            padding: 50px 0;
+            background: #f1f5f9;
+            border-radius: 40px;
+            margin: 10px 0;
+        }
+        .steps .container {
+            padding: 0 24px;
+        }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 24px;
+            counter-reset: step;
+        }
+        .step-item {
+            text-align: center;
+            position: relative;
+        }
+        .step-item .step-number {
+            display: inline-block;
+            width: 44px;
+            height: 44px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 44px;
+            margin-bottom: 10px;
+        }
+        .step-item h4 {
+            font-size: 16px;
+        }
+        .step-item p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .testimonials {
+            padding: 50px 0;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+        }
+        .testimonial-item {
+            background: #fff;
+            padding: 24px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .testimonial-item .stars {
+            color: #f59e0b;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+        .testimonial-item p {
+            margin: 10px 0;
+            font-style: italic;
+            color: #334155;
+            font-size: 15px;
+        }
+        .testimonial-item .author {
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .testimonial-item .role {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .faq {
+            padding: 50px 0;
+        }
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 18px 22px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .faq-item:hover {
+            border-color: #94a3b8;
+        }
+        .faq-item .question {
+            font-weight: 600;
+            font-size: 17px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-item .question .arrow {
+            transition: 0.3s;
+            font-size: 20px;
+        }
+        .faq-item .answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.4s;
+            color: #475569;
+            padding-top: 0;
+            font-size: 15px;
+        }
+        .faq-item.active .answer {
+            max-height: 300px;
+            padding-top: 14px;
+        }
+        .faq-item.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: #fff;
+            border-radius: 28px;
+            padding: 36px 32px;
+            max-width: 460px;
+            width: 100%;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .modal .close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 26px;
+            cursor: pointer;
+            color: #94a3b8;
+            background: none;
+            border: none;
+            transition: 0.2s;
+        }
+        .modal .close:hover {
+            color: #0f172a;
+        }
+        .modal h2 {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+        .modal p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+        .modal input,
+        .modal textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 15px;
+            margin-bottom: 12px;
+            transition: 0.2s;
+        }
+        .modal input:focus,
+        .modal textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+        .modal .btn-primary {
+            width: 100%;
+            padding: 14px;
+            font-size: 17px;
+        }
+
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 40px 0 20px;
+            border-radius: 40px 40px 0 0;
+            margin-top: 30px;
+        }
+        footer .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        footer h5 {
+            color: #fff;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+        footer a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: block;
+            margin: 3px 0;
+            transition: 0.2s;
+            font-size: 14px;
+        }
+        footer a:hover {
+            color: #fff;
+        }
+        footer .social-icons {
+            display: flex;
+            gap: 14px;
+            font-size: 26px;
+            margin-top: 6px;
+        }
+        footer .social-icons a {
+            display: inline-block;
+        }
+        footer .copyright {
+            border-top: 1px solid #1e293b;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 32px;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                font-size: 28px;
+            }
+            .modal {
+                padding: 24px 20px;
+            }
+            header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            nav {
+                justify-content: center;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-text {
+                text-align: center;
+            }
+            .hero-image {
+                min-height: 200px;
+            }
+            .hero-image img {
+                min-height: 200px;
+            }
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .about-grid .image-placeholder {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== ХЕДЕР ===== -->
+    <header class="container">
+        <div class="logo">⚙️ <span>Деталь</span>Про</div>
+        <nav>
+            <a href="#services">Услуги</a>
+            <a href="#details">Примеры</a>
+            <a href="#tech">Оборудование</a>
+            <a href="#testimonials">Отзывы</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+        <div class="header-phone">
+            <a href="tel:+79991234567">📞 +7 (999) 123-45-67</a>
+        </div>
+    </header>
+
+    <!-- ===== ГЕРОЙ ===== -->
+    <section class="container hero">
+        <div class="hero-text">
+            <div class="badge">🔧 Полный цикл производства</div>
+            <h1>Любые детали из <span>пластика</span> и <span>металла</span></h1>
+            <p>
+                3D-печать, литьё на ТПА, фрезеровка на ЧПУ. Восстановим даже по обломку.
+                От одной штуки до серийной партии.
+            </p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="openModal()">📩 Обсудить заказ</button>
+                <button class="btn-outline" onclick="document.getElementById('details').scrollIntoView({behavior:'smooth'})">Что я делаю</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://i.ibb.co/5h5GYnJj/bffa0108-a3a2-877d-dea1-f9ebf858f5c8.webp" alt="Бронзовые детали на производстве" />
+        </div>
+    </section>
+
+    <!-- ===== СТАТИСТИКА ===== -->
+    <div class="container stats">
+        <div class="stat-item"><div class="number">500+</div><div class="label">Деталей изготовлено</div></div>
+        <div class="stat-item"><div class="number">98%</div><div class="label">Точность соответствия</div></div>
+        <div class="stat-item"><div class="number">6 лет</div><div class="label">Опыта в производстве</div></div>
+        <div class="stat-item"><div class="number">4.9 ★</div><div class="label">Средний рейтинг</div></div>
+    </div>
+
+    <!-- ===== О НАС - НОВОЕ ФОТО "ДО И ПОСЛЕ" ===== -->
+    <section class="about container" id="about">
+        <div class="about-grid">
+            <div class="image-placeholder">
+                <!-- НОВОЕ ФОТО: ДО И ПОСЛЕ ВОССТАНОВЛЕНИЯ -->
+                <img src="https://i.ibb.co/7JHP3M7K/image.jpg" alt="Деталь до и после восстановления" />
+                <div class="before-after">
+                    <span>❌ Сломана</span>
+                    <span>✅ Восстановлена</span>
+                </div>
+            </div>
+            <div>
+                <h3>Сломалась деталь? Восстановлю даже по обломку!</h3>
+                <p>
+                    Ручка, шестеренка, кронштейн или корпус — я изготовлю любую деталь 
+                    по вашему образцу, чертежу или даже по обломкам. Работаю с пластиком 
+                    и металлом, от штучных изделий до крупных серий.
+                </p>
+                <ul>
+                    <li>3D-печать и прототипирование</li>
+                    <li>Литьё под давлением (ТПА) от 100 шт.</li>
+                    <li>Фрезеровка и токарная обработка металла</li>
+                    <li>Точность до 0,01 мм</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== УСЛУГИ ===== -->
+    <section class="services container" id="services">
+        <h2 class="section-title">Мои возможности</h2>
+        <p class="section-subtitle">Пластик, металл, прототипирование — под любую задачу</p>
+        <div class="services-grid">
+
+            <div class="service-card">
+                <img src="https://i.ibb.co/VYtrcbJw/3-D.jpg" alt="3D-печать деталей" class="service-img" />
+                <h4>3D-печать</h4>
+                <span class="sub">Штучно и мелкие партии</span>
+                <p>Шестеренки, ручки, кнопки, корпуса, клипсы, втулки, прототипы для тестирования.</p>
+                <div class="materials">
+                    <span>PETG</span><span>ABS</span><span>PLA</span><span>нейлон</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <img src="https://i.ibb.co/wF1PBLfJ/image.jpg" alt="Литьё пластиковых деталей на ТПА" class="service-img" />
+                <h4>Литьё на ТПА</h4>
+                <span class="sub">Серийно от 100 до 100 000+ шт.</span>
+                <p>Экономически выгодно для больших партий. Проектирую оснастку под вашу задачу.</p>
+                <div class="materials">
+                    <span>ПА</span><span>ПП</span><span>ПЭ</span><span>ПВХ</span><span>АБС</span><span>ПС</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <img src="https://i.ibb.co/ymmHPQQq/image.jpg" alt="Фрезеровка металлических деталей" class="service-img" />
+                <h4>Фрезеровка металла</h4>
+                <span class="sub">Штучно и серийно</span>
+                <p>3-х и 5-ти осевая обработка, токарка, сверление, резьба. Точность до 0,01 мм.</p>
+                <div class="materials">
+                    <span>Сталь</span><span>Алюминий</span><span>Латунь</span><span>Бронза</span><span>Титан</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== ПРИМЕРЫ ДЕТАЛЕЙ ===== -->
+    <section class="details" id="details">
+        <div class="container">
+            <h2 class="section-title">Что я изготавливаю</h2>
+            <p class="section-subtitle">Реальные примеры деталей, которые уже сделаны на заказ</p>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <div class="detail-img">
+                        <img src="https://i.ibb.co/r2kYYPb1/image.webp" alt="Шестерёнки и валы" />
+                    </div>
+                    <div class="name">Шестерёнки, валы</div>
+                    <div class="desc">Для миксеров, мясорубок, стиральных машин</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-img">
+                        <img src="https://i.ibb.co/wNLX7MpS/image.jpg" alt="Ручки и кнопки" />
+                    </div>
+                    <div class="name">Ручки, кнопки, диски</div>
+                    <div class="desc">Для плит, духовок, холодильников</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-img">
+                        <img src="https://i.ibb.co/Qyt034D/image.jpg" alt="Клипсы и фиксаторы" />
+                    </div>
+                    <div class="name">Клипсы, фиксаторы</div>
+                    <div class="desc">Направляющие для ящиков, дверок, полок</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-img">
+                        <img src="https://i.ibb.co/TMqqMGzY/image.jpg" alt="Корпуса и крышки" />
+                    </div>
+                    <div class="name">Корпуса, крышки</div>
+                    <div class="desc">Для приборов и электроники</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-img">
+                        <img src="https://i.ibb.co/pBMwPzWT/image.jpg" alt="Переходники и втулки" />
+                    </div>
+                    <div class="name">Переходники, втулки</div>
+                    <div class="desc">Ремонтные и адаптирующие детали</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-img">
+                        <img src="https://i.ibb.co/6JfXxsvS/image.jpg" alt="Прототипы" />
+                    </div>
+                    <div class="name">Прототипы</div>
+                    <div class="desc">Для тестирования и презентаций</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ОБОРУДОВАНИЕ ===== -->
+    <section class="tech container" id="tech">
+        <h2 class="section-title">Оборудование и технологии</h2>
+        <p class="section-subtitle">Современный парк станков для любых задач</p>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-img">
+                    <img src="https://i.ibb.co/Q3sKG25w/3.jpg" alt="3D-принтер" />
+                </div>
+                <h4>3D-принтеры</h4>
+                <p>FDM-печать с высокой точностью. Слой от 0,1 мм.</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-img">
+                    <img src="https://i.ibb.co/whWCrhYZ/image.webp" alt="Термопластавтомат" />
+                </div>
+                <h4>ТПА (литьё)</h4>
+                <p>Термопластавтоматы для серийного выпуска пластиковых изделий.</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-img">
+                    <img src="https://i.ibb.co/tMTz7pXd/image.webp" alt="Фрезерный станок с ЧПУ" />
+                </div>
+                <h4>Фрезерные станки ЧПУ</h4>
+                <p>3-х и 5-ти осевая обработка металла. Точность до 0,01 мм.</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-img">
+                    <img src="https://i.ibb.co/WNGpMMH8/image.jpg" alt="Токарный станок" />
+                </div>
+                <h4>Токарные станки</h4>
+                <p>Обработка валов, втулок, крепёжных элементов.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ЭТАПЫ РАБОТЫ ===== -->
+    <section class="steps">
+        <div class="container">
+            <h2 class="section-title">Как мы работаем</h2>
+            <p class="section-subtitle">Просто пришлите фото или чертёж — я предложу решение</p>
+            <div class="steps-grid">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <h4>Присылаете задачу</h4>
+                    <p>Фото, чертёж, эскиз или просто описание</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <h4>Расчёт стоимости</h4>
+                    <p>Называю цену и сроки. Предлагаю оптимальный способ</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <h4>Согласование</h4>
+                    <p>Обсуждаем нюансы: материал, точность, допуски</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <h4>Изготовление</h4>
+                    <p>Производство, контроль качества и отправка</p>
+                </div>
+            </div>
+            <p style="text-align:center; margin-top:24px; color:#64748b; font-size:15px;">
+                📦 Отправка: Почта, СДЭК, курьер по городу (по договорённости)
+            </p>
+        </div>
+    </section>
+
+    <!-- ===== ОТЗЫВЫ ===== -->
+    <section class="testimonials container" id="testimonials">
+        <h2 class="section-title">Отзывы клиентов</h2>
+        <p class="section-subtitle">Реальные люди, реальные детали</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-item">
+                <div class="stars">★★★★★</div>
+                <p>«Сломалась шестерёнка в мясорубке — новая не продаётся. Сделали за 2 дня, подошла идеально. Спасибо!»</p>
+                <div class="author">Сергей П.</div>
+                <div class="role">Ремонт бытовой техники</div>
+            </div>
+            <div class="testimonial-item">
+                <div class="stars">★★★★★</div>
+                <p>«Заказывал партию корпусов для электроники. Всё точно по размерам, пластик качественный. Очень доволен.»</p>
+                <div class="author">Алексей М.</div>
+                <div class="role">Производитель электроники</div>
+            </div>
+            <div class="testimonial-item">
+                <div class="stars">★★★★★</div>
+                <p>«Нужен был прототип детали за 3 дня. Сделали, ещё и доработали по моим замечаниям. Буду заказывать серию.»</p>
+                <div class="author">Елена К.</div>
+                <div class="role">Инженер-конструктор</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="faq container" id="faq">
+        <h2 class="section-title">Часто задаваемые вопросы</h2>
+        <p class="section-subtitle">Всё, что нужно знать о заказе деталей</p>
+        <div class="faq-list">
+            <div class="faq-item active">
+                <div class="question">Что нужно, чтобы заказать деталь? <span class="arrow">▼</span></div>
+                <div class="answer">Достаточно прислать фото, чертёж или эскиз. Если деталь сломана — можно прислать обломки, я восстановлю по ним. Также принимаю 3D-модели в любом формате.</div>
+            </div>
+            <div class="faq-item">
+                <div class="question">Какие сроки изготовления? <span class="arrow">▼</span></div>
+                <div class="answer">3D-печать — от 1 дня. Фрезеровка металла — от 2 дней. Литьё на ТПА (серия) — от 5 дней, зависит от сложности оснастки и объёма партии.</div>
+            </div>
+            <div class="faq-item">
+                <div class="question">Сколько это стоит? <span class="arrow">▼</span></div>
+                <div class="answer">Цена зависит от сложности, материала и способа изготовления. Просто пришлите задачу — я назову точную стоимость. Это бесплатно и ни к чему не обязывает.</div>
+            </div>
+            <div class="faq-item">
+                <div class="question">Делаете серийные партии? <span class="arrow">▼</span></div>
+                <div class="answer">Да! От 100 до 100 000+ пластиковых деталей методом литья на ТПА. Также изготавливаю металлические детали серийно на фрезерных станках с ЧПУ.</div>
+            </div>
+            <div class="faq-item">
+                <div class="question">Как происходит оплата и доставка? <span class="arrow">▼</span></div>
+                <div class="answer">Оплата: предоплата 50%, остальное по факту готовности. Отправка: Почта России, СДЭК, курьер по городу (по договорённости).</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ФУТЕР ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h5>⚙️ <span style="color:#3b82f6;">Деталь</span>Про</h5>
+                    <p style="color:#94a3b8; max-width:200px; font-size:14px;">Изготовление пластиковых и металлических деталей на заказ. 3D-печать, ТПА, фрезеровка.</p>
+                </div>
+                <div>
+                    <h5>Услуги</h5>
+                    <a href="#">3D-печать</a>
+                    <a href="#">Литьё на ТПА</a>
+                    <a href="#">Фрезеровка металла</a>
+                    <a href="#">Прототипирование</a>
+                </div>
+                <div>
+                    <h5>Контакты</h5>
+                    <a href="tel:+79991234567">📞 +7 (999) 123-45-67</a>
+                    <a href="mailto:info@detailpro.ru">✉️ info@detailpro.ru</a>
+                    <div class="social-icons">
+                        <a href="#">📱</a>
+                        <a href="#">💬</a>
+                        <a href="#">📘</a>
+                        <a href="#">📺</a>
+                    </div>
+                    <p style="color:#94a3b8; font-size:13px; margin-top:6px;">WhatsApp, Telegram</p>
+                </div>
+            </div>
+            <div class="copyright">© 2026 ДетальПро. Все права защищены. Изготовление деталей на заказ.</div>
+        </div>
+    </footer>
+
+    <!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="close" onclick="closeModal()">✕</button>
+            <h2>📩 Обсудить заказ</h2>
+            <p>Пришлите фото детали или описание задачи — я отвечу в течение 30 минут.</p>
+            <form onsubmit="event.preventDefault(); alert('✅ Спасибо! Я свяжусь с вами в ближайшее время.'); closeModal();">
+                <input type="text" placeholder="Ваше имя" required />
+                <input type="tel" placeholder="Телефон или Telegram" required />
+                <input type="email" placeholder="Email (необязательно)" />
+                <textarea rows="3" placeholder="Опишите деталь: для чего, материал, количество, срочность..."></textarea>
+                <button type="submit" class="btn-primary">Отправить заявку</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== СКРИПТЫ ===== -->
+    <script>
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        document.querySelectorAll('nav a, .hero-buttons .btn-outline').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
